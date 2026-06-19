@@ -1,0 +1,159 @@
+<!-- {% for item in items %}
+<div class="cart-item">
+    <img src="{{ item.image_url }}">
+    <h3>{{ item.product_name }}</h3>
+    <p>${{ item.price }}</p>
+</div>
+{% endfor %} -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Your Cart</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 0;
+        }
+
+        .cart-item img {
+            width: 90px;
+            height: 90px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        .cart-info {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .cart-info h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .cart-info p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .actions form {
+            margin: 5px 0;
+        }
+
+        .actions button {
+            padding: 5px 10px;
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .actions button.update {
+            background-color: #3498db;
+        }
+
+        .total {
+            text-align: right;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #222;
+        }
+
+        .checkout-btn {
+            display: block;
+            margin: 30px auto 0;
+            padding: 12px 25px;
+            font-size: 16px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div style="background-color: #d4edda; color: #155724; padding: 12px; border-radius: 5px; margin-bottom: 20px;">
+            {% for message in messages %}
+            <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <h1>Your Shopping Cart</h1>
+
+        {% for item in items %}
+        <div class="cart-item">
+            <img src="{{ item.image_url }}" alt="">
+            <div class="cart-info">
+                <h3>{{ item.product_name }}</h3>
+                <p>Price: ₹{{ item.price }}</p>
+                <form action="/update_quantity" method="POST">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    Quantity:
+                    <input type="number" name="quantity" value="{{ item.quantity }}" min="1" style="width: 60px;">
+                    <button type="submit" class="update">Update</button>
+                </form>
+            </div>
+            <div class="actions">
+                <form action="/remove_from_cart" method="POST">
+                    <input type="hidden" name="item_id" value="{{ item.id }}">
+                    <button type="submit">Remove</button>
+                </form>
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="total">
+            Total: ₹{{ total }}
+        </div>
+
+        <form action="/checkout" method="POST">
+            <button type="submit" class="checkout-btn">Proceed to Checkout</button>
+        </form>
+    </div>
+</body>
+
+</html>

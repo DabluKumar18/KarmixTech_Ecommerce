@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Wishlist</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+        .wishlist-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid #ccc;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
+        .btn-remove {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .btn-remove:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+<body>
+    <div class="wishlist-container">
+        <h2>💖 My Wishlist</h2>
+        {% if wishlist %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+            {% for item in wishlist %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>₹{{ item.price }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('remove_from_wishlist') }}">
+                        <input type="hidden" name="wishlist_id" value="{{ item.id }}">
+                        <button type="submit" class="btn-remove">Remove</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+            <p>No items in wishlist.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

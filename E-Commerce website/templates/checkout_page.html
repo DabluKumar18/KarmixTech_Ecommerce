@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 50px;
+        }
+        .form-container {
+            background-color: #fff;
+            padding: 30px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin: 15px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #219150;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Checkout</h2>
+        <form action="/checkout" method="POST">
+            <label for="address">Shipping Address:</label>
+            <input type="text" id="address" name="address" placeholder="Enter full address" required>
+
+            <label for="payment_method">Payment Method:</label>
+            <select id="payment_method" name="payment_method" required>
+                <option value="">-- Select --</option>
+                <option value="cod">Cash on Delivery</option>
+                <option value="razorpay">Razorpay</option>
+                <option value="dummy">Dummy Payment</option>
+            </select>
+
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+</body>
+</html>

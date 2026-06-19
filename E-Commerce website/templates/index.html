@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce Website</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    <header class="section-navbar">
+
+        <section class="top_text">
+            <div class="head container">
+                <div class="head_text">
+                    {% if username %}
+                    <p style="margin: 0; color: green;">✅ Welcome, {{ username }}</p>
+                    <a href="/logout" class="sign_out">Logout</a>
+                    {% else %}
+                    <a href="/login" class="sign_in">Sign In</a>
+                    <a href="/register" class="sign_up">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+        <!-- Navbar Here -->
+        <nav class="navbar container">
+            <a href="#" class="logo">
+                Modern<span>Shop.</span>
+            </a>
+            <ul class="nav">
+                <li>
+                    <a href="#home" class="link">HOME</a>
+                </li>
+                <li>
+                    <a href="#shop" class="link">SHOP</a>
+                </li>
+                <li>
+                    <a href="#page" class="link">PAGE</a>
+                </li>
+                <li>
+                    <a href="#blog" class="link">BLOG</a>
+                </li>
+                <li>
+                    <a href="#contact" class="link">CONTACT</a>
+                </li>
+                <li class="nav-icon">
+                    <form action="{{ url_for('search') }}" method="get" class="search-form">
+                        <input type="text" name="q" placeholder="Search products..." required />
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+
+                    {% if username %}
+                <li class="nav-icon profile-menu">
+                    <a href="#" class="icon" id="profile-icon">
+                        <i class="fa-solid fa-user"></i>
+                    </a>
+                    <div class="dropdown-content" id="profile-dropdown">
+                        <a href="profile">👤 My Profile</a>
+                        <a href="orders">🛒 My Orders</a>
+                        <a href="wishlist">💳 My Wishlist</a>
+                        <a href="settings">⚙️ Settings</a>
+                    </div>
+                </li>
+
+
+                <a href="{{ url_for('cart') }}" class="icon">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span id="cart-count">{{ cart_count }}</span> <!-- Dynamic cart count -->
+                </a>
+                </li>
+                {% endif %}
+            </ul>
+            <a href="#" class="hamburger">
+                <i class="fa-solid fa-bars"></i>
+            </a>
+        </nav>
+    </header>
+    <!-- Hero sections Here -->
+    <main>
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <h3>Summer Fashion</h3>
+                <h1>New Collection</h1>
+                <h4>Big sale of this week up to <span>50% off</span></h4>
+                <a href="{{ url_for('shop') }}" class="shop-btn">Shop Now</a>
+            </div>
+        </section>
+
+        <!-- Category Section Container -->
+        <section class="Section" id="shop">
+            <div class="Category-container">
+                <div class="Category">
+                    <img src="{{ url_for('static', filename='Images/for men.jpg') }}" alt="Banner Image">
+
+                    <button>for Men's</a></button>
+                </div>
+                <div class="Category">
+                    <img src="{{ url_for('static', filename='Images/for kids.jpg') }}" alt="">
+                    <button>for Kid's</button>
+                </div>
+                <div class="Category">
+                    <img src="{{ url_for('static', filename='Images/for women.jpg') }}" alt="">
+                    <button>for Women's</button>
+                </div>
+                <div class="Category">
+                    <img src="{{ url_for('static', filename='Images/for accessories.jpg') }}" alt="">
+
+                    <button>for Accessories</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Card Section -->
+
+        <section class="Section">
+            <div class="container">
+                <h2>Featured Products</h2>
+                <div class="line"></div>
+                <div class="card-container1 wrap">
+                    <div class="card">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image1.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+                                <del>₹999.99</del>
+                                <span class="price">₹499.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="1">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card sale">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image2.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black ladies bag out of the box
+                            </p>
+                            <div class="amount">
+                                <del>₹499.99</del>
+                                <span class="price">₹399.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="2">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image3.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹399.99</del>
+                                <span class="price">₹179.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="3">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/men-short2.webp') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Casual boys printed shirts out of the box
+                            </p>
+                            <div class="amount">
+                                <del>₹569.99</del>
+                                <span class="price">₹429.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="4">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="Section">
+            <div class="sale-container">
+                <h3>New Trend 2025</h3>
+                <h1>Women's Summer Collection</h1>
+                <div class="Line"></div>
+                <h4>Big sale of this week</h4>
+                <a href="{{ url_for('shop') }}" class="shop-btn">Shop Now</a>
+            </div>
+        </section>
+
+        <section class="Section" id="page">
+            <div class="container">
+                <h2>Best offers sales</h2>
+                <div class="line"></div>
+                <div class="card-container1 wrap">
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='Images/c5.webp') }}" alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Casual men T-shirts out of the box 
+                            </p>
+                            <div class="amount">
+                                <del>₹599.99</del>
+                                <span class="price">₹399.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="5">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card sale">
+                        <img src="{{ url_for('static', filename='Images/card-image5.jpg') }}" alt=""></a>
+
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+                                <del>₹199.99</del>
+                                <span class="price">₹99.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="6">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="6">
+                            <input type="hidden" name="product_name" value="Leather Black Shoes out of the box">
+                            <input type="hidden" name="price" value="99.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <img src="{{ url_for('static', filename='Images/card-image6.jpg') }}" alt=""></a>
+
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹99.99</del>
+                                <span class="price">₹59.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="7">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image7.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹789.99</del>
+                                <span class="price">₹329.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="8">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image8.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹589.99</del>
+                                <span class="price">₹459.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="9">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image9.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹1199.99</del>
+                                <span class="price">₹799.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="10">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image10.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹499.99</del>
+                                <span class="price">₹299.99</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="11">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+                    <div class="card new">
+                        <a href="for Men's.html"> <img src="{{ url_for('static', filename='Images/card-image11.jpg') }}"
+                                alt=""></a>
+                        <div class="card-container">
+                            <p class="title">
+                                Leather Black Shoes out of the box
+                            </p>
+                            <div class="amount">
+
+                                <del>₹199.99</del>
+                                <span class="price">₹99.09</span>
+                            </div>
+                        </div>
+                        <button class="add-to-cart" data-product-id="12">Add to Cart</button>
+                        <!-- Wishlist Form -->
+                        <form method="POST" action="/add_to_wishlist" style="margin-top: 5px;">
+                            <input type="hidden" name="product_id" value="5">
+                            <input type="hidden" name="product_name" value="Combo men T-shirt out of the box">
+                            <input type="hidden" name="price" value="399.99">
+                            <button type="submit" class="wishlist-btn">❤️ Add to Wishlist</button>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="Section">
+            <div class="secondary-bg">
+                <div class="container wrap">
+                    <div class="box">
+                        <i class="fa-solid fa-truck"></i>
+                        <h5>
+                            <a href="#">Free Shipping</a>
+                        </h5>
+                        <p class="des">Free Shipping on order over $500</p>
+                    </div>
+                    <div class="box">
+                        <i class="fa-solid fa-money-bill-1"></i>
+                        <h5>
+                            <a href="#">Cash On Delivery</a>
+                        </h5>
+                        <p class="des">The Internet Trend To Repeat</p>
+                    </div>
+                    <div class="box">
+                        <i class="fa-solid fa-gift"></i>
+                        <h5>
+                            <a href="#">Gift For All</a>
+                        </h5>
+                        <p class="des">Receive a free gift with every order</p>
+                    </div>
+                    <div class="box">
+                        <i class="fa-solid fa-clock"></i>
+                        <h5>
+                            <a href="#">Opening All week</a>
+                        </h5>
+                        <p class="des">6.00am - 3.00pm</p>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="Section" id="blog">
+            <div class="container">
+                <h2>New Latest Products</h2>
+                <div class="line"></div>
+
+                <div class="blog-container flex wrap">
+                    <div class="blog-box">
+                        <img src="{{ url_for('static', filename='Images/news-image1.jpg') }}" alt="">
+                        <div class="blog-content">
+                            <h3 class="heading">
+                                <a href="#">Latest Trends in Fashion 2025</a>
+                            </h3>
+                            <p class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati tempore
+                                quas, non
+                                laboriosam placeat minima modi eum explicabo, sint minus sunt rerum dicta? A iusto
+                                dolores
+                                cumque facere. Dolores, vel?</p>
+                            <a href="#" class="blog-link">Read More</a>
+                        </div>
+                    </div>
+                    <div class="blog-box">
+                        <img src="{{ url_for('static', filename='Images/news-image2.jpg') }}" alt="">
+                        <div class="blog-content ">
+                            <h3 class="heading">
+                                <a href="#">Latest Trends in Fashion 2025</a>
+                            </h3>
+                            <p class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati tempore
+                                quas, non
+                                laboriosam placeat minima modi eum explicabo, sint minus sunt rerum dicta? A iusto
+                                dolores
+                                cumque facere. Dolores, vel?</p>
+                            <a href="#" class="blog-link">Read More</a>
+                        </div>
+                    </div>
+                    <div class="blog-box">
+                        <img src="{{ url_for('static', filename='Images/news-image3.jpg') }}" alt="">
+                        <div class="blog-content ">
+                            <h3 class="heading">
+                                <a href="#">Latest Trends in Fashion 2025</a>
+                            </h3>
+                            <p class="des">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati tempore
+                                quas, non
+                                laboriosam placeat minima modi eum explicabo, sint minus sunt rerum dicta? A iusto
+                                dolores
+                                cumque facere. Dolores, vel?</p>
+                            <a href="#" class="blog-link">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="Section" id="contact">
+            <div class="secondary-bg">
+                <form class="container flex">
+                    <h3>Contact Us</h3>
+
+                    <div class="input-container flex">
+                        <input type="text" placeholder="Enter your email...">
+                        <input type="number" placeholder="Enter your phone number">
+                        <button type="submit">Contact</button>
+                    </div>
+
+                    <div class="social-icons">
+                        <a href="#"><i class="fa-brands fa-google"></i></a>
+                        <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </main>
+
+    <!-- Create footer Here -->
+
+    <footer class="Section">
+        <div class="container flex">
+            <ul class="footer-list">
+                <li>
+                    <a href="#" class="footer-link">About Us</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Online Store</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Blog</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Contact Us</a>
+                </li>
+            </ul>
+            <ul class="footer-list">
+                <li>
+                    <a href="#" class="footer-link">Login/Register</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Your Cart</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Wishlist Items</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Your Checkout</a>
+                </li>
+            </ul>
+            <ul class="footer-list">
+                <li>
+                    <a href="#" class="footer-link">FAQs</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Term of Service</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                </li>
+                <li>
+                    <a href="#" class="footer-link">Return</a>
+                </li>
+            </ul>
+            <ul class="footer-list">
+                <li class="footer-logo">
+                    <a href="#" class="logo">
+                        Modern<span>Shop.</span>
+                    </a>
+
+                </li>
+                <li>
+                    <p class="details">+91 12345 67890</p>
+
+                </li>
+                <li>
+                    <p class="details"><a href="https://gmail.com" target="_main">modern@gmail.com</a></p>
+                </li>
+            </ul>
+
+        </div>
+        <div class="footer-bottom">
+            <p> Copyright &copy; 2025 E-Commerce Website. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+</html>

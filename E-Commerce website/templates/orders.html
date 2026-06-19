@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>My Orders</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+
+        .orders-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ccc;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        .cancel-form {
+            margin: 0;
+        }
+
+        .cancel-btn {
+            background-color: #e53935;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c62828;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="orders-container">
+        <h2>🛒 My Orders</h2>
+        {% if orders %}
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Date</th>
+                <th>Action</th>
+            </tr>
+            {% for order in orders %}
+            <tr>
+                <td>{{ order.product_name }}</td>
+                <td>₹{{ order.price }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>{{ order.order_date.strftime('%d-%b-%Y') }}</td>
+                <td>
+                    <form method="POST" action="{{ url_for('cancel_order') }}">
+                        <input type="hidden" name="order_id" value="{{ order.id }}">
+                        <button type="submit" class="cancel-btn">Cancel</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <p>No orders found.</p>
+        {% endif %}
+    </div>
+</body>
+
+</html>
