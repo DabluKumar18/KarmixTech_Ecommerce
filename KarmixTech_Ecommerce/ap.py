@@ -1,11 +1,11 @@
 
 from flask import Flask, render_template, request, redirect, url_for, session, flash, jsonify
-# Flask application ka basic structure banaya hai
+
 import mysql.connector
 from flask import session, jsonify
 
-app = Flask(__name__) # Flask application ka instance banaya hai
-app.secret_key = 'your_secret_key'  # koi bhi random string de sakte ho
+app = Flask(__name__) 
+app.secret_key = 'your_secret_key'  
 
 
 # MySQL configuration
